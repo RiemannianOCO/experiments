@@ -1,7 +1,5 @@
 
-# No-regret Online Learning over Riemannian Manifolds
-
-This repository is the official implementation of [No-regret Online Learning over Riemannian Manifolds].
+# Online Optimization over Riemannian Manifolds
 
 **Copyright © Xi Wang & Zhipeng Tu** <wangxi14@mails.ucas.ac.cn>
 
