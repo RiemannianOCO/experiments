@@ -2,7 +2,7 @@ import os
 import sys
 
 import numpy as np
-from pymanopt.solvers import *
+from pymanopt.optimizers import *
 sys.path.append(os.getcwd())
 
 from core.offline_problem import OfflineProblem
@@ -21,16 +21,8 @@ X_0 = Hn.center
 
 
 grid_num = 50
-list_T= []
-i = T>>1
-while i>0:
-    list_T.append( i -1 )
-    i = i>>1
-list_T.reverse()
-
-for i in range(grid_num):
-    mid = int(  (i+1)/grid_num * T + (grid_num-1-i)/grid_num * (T>>1) -1 )
-    list_T.append(mid)
+list_T= list(range(0,T,50))
+list_T.append(T-1)
 
 off_prob = OfflineProblem(  mfd = Hn,
                             data = A,

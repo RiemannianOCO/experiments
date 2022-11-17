@@ -2,7 +2,7 @@ import os
 import sys
 
 import numpy as np
-from pymanopt.solvers import *
+from pymanopt.optimizers import *
 
 sys.path.append(os.getcwd())
 from core.offline_problem import OfflineProblem
@@ -29,10 +29,11 @@ off_prob = OfflineProblem(  mfd = Gr,
                             sum_grad = pca.sum_grad 
                         ) 
 
-solver = OfflineSolver(solver = ConjugateGradient, mingrad = 1e-2)
+solver = OfflineSolver(solver = ConjugateGradient, mingrad = 1e-3)
 
 X_0 = solver.optimize(off_prob,X_0,[T-1])
 np.save(foldname +'X_0',X_0)
+
 solver.optimize(off_prob,X_0,list_T)
 
 

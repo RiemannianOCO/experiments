@@ -8,4 +8,4 @@ T=config.T
 block=config.block
 filename = config.foldname + 'data_A.npy'
 
-A = generate_mat(n , T, block, filename)
+A = generate_mat(n , T, block, filename,seed = 42)

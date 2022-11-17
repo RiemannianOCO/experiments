@@ -13,14 +13,14 @@ class OnlineBandit(OnlineSolver):
     def __init__(self) -> None:
        self.solver_type = 'BAN' 
     
-    def optimize(self,problem,Y_0,mul = 1, mu = 0):
+    def optimize(self,problem,Y_0,mul = 1, mu = 0,c_0 = -1):
         T = problem.time
         track_list = ['X','Y']
         self.initial_with_problem(T,Y_0,track_list)
 
         self.Y[0] = Y_0
         if mu > 0:
-            self.bandit_solver_sc(problem,Y_0,mul,mu)
+            self.bandit_solver_sc(problem,Y_0,mul,mu,c_0)
         else:
             self.bandit_solver(problem,Y_0,mul)
 
@@ -60,7 +60,7 @@ class OnlineBandit(OnlineSolver):
             dist_center = mfd.dist(Y_t_plus_1, center)
             
             if dist_center >= D:            
-                Y_t_plus_1 = mfd.exp(center,  (1-tau)*D/dist_center * mfd.log(center,Y_t_plus_1 )  )
+                Y_t_plus_1 = mfd.exp(center,  (1-tau)*D/(dist_center) * mfd.log(center,Y_t_plus_1 )  )
                 if (dist_center/D >= 2):
                     print('warning!',t)
             self.Y[t+1] = Y_t_plus_1
@@ -69,7 +69,7 @@ class OnlineBandit(OnlineSolver):
         
 
 
-    def bandit_solver_sc (self,problem,Y_0,mul,mu):
+    def bandit_solver_sc (self,problem,Y_0,mul,mu,c_0):
         # problem setting
         (mfd,f,T,n) = ( problem.mfd,
                         problem.f_t,
@@ -88,10 +88,12 @@ class OnlineBandit(OnlineSolver):
         delta = mul * ( n * C * (1 + np.log(T) ) / T)  ** (1/3)  
         B = n / delta + n * kappa * delta
         tau = delta / r
-        alpha = B / mu
+        alpha =  B / mu 
         center = problem.mfd.center
-        proceed = np.round(alpha / 0.1 ) + 1
-        proceed = 1
+        if c_0 == -1:
+            proceed = np.round(C * alpha / D ) + 1
+        else:
+            proceed = c_0
         for t in range(T):
             time_s = time.time()
             Y_t = self.Y[t]

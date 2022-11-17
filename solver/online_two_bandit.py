@@ -7,6 +7,7 @@ class OnlineTwoPointBandit(OnlineSolver):
        self.solver_type = 'BAN' 
     
     def optimize(self,problem,Y_0,mul = 1,mu=0, setoff = 1):
+        np.random.seed()
         T = problem.time
         track_list = ['X1','X2','Y']
         self.initial_with_problem(T,Y_0,track_list)

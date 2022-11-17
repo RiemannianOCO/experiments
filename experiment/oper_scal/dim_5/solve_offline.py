@@ -3,10 +3,10 @@ from typing import List
 sys.path.append('.')
 
 import numpy as np
-from pymanopt.manifolds import PositiveDefinite
+from pymanopt.manifolds import SymmetricPositiveDefinite
 from core.offline_problem import OfflineProblem
 from solver.offline_solver import OfflineSolver
-from pymanopt.solvers import ConjugateGradient
+from pymanopt.optimizers import ConjugateGradient
 from lib.function import oper_scal
 import config
 
@@ -16,9 +16,8 @@ block=config.block
 foldname = config.foldname
 
 list_T = list(range(0,T,200))
-list_T.append(T-1
-)
-SPD = PositiveDefinite(n, k=1)
+list_T.append(T-1)
+SPD = SymmetricPositiveDefinite(n, k=1)
 A = np.load( foldname + 'data_A.npy' )
 X_0 = np.eye(n)
 

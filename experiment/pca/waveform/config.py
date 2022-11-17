@@ -15,12 +15,11 @@ block=5
 
 # manifold 
 from pymanopt.manifolds import Grassmann
-
 mfd = Grassmann(n,d)
 X = np.load(foldname+'X_0.npy')
 mfd.center = X
 
-curvature_above = 0.5
+curvature_above = 2
 diameter = np.pi / ( 2*np.sqrt(curvature_above) )
 lipschitz = 10
 bound = 3
@@ -34,10 +33,10 @@ param = Param(diameter = diameter,
               )
 
 
-np.random.seed(42)
-X_0 = mfd.rand()
-X_0 = mfd.exp( mfd.center , (0.9999 * diameter) * mfd.log(mfd.center,X_0)/mfd.dist(mfd.center,X_0)  )
-X_0 =mfd.center
+np.random.seed(99)
+X_0 = mfd.random_point()
+X_0 = mfd.exp( mfd.center , (0.999* diameter) * mfd.log(mfd.center,X_0)/mfd.dist(mfd.center,X_0)  )
+# X_0 =mfd.center
 np.random.seed()
 
 

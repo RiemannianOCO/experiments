@@ -4,8 +4,9 @@ def gen_a_mat(n):
     A = np.random.rand(n**2).reshape(n, n)
     return A
 
-def generate_mat ( n, T, block, filename='', is_test = False ):
+def generate_mat ( n, T, block, filename='', is_test = False ,seed = 42):
     A = np.zeros((T,block,n,n))
+    np.random.seed(seed)
     for i in range(T):
         for j  in range(block):
             A[i,j] = gen_a_mat(n)

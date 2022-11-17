@@ -14,10 +14,10 @@ T=config.T
 block=config.block
 Hn =config.mfd
 
-fold_read = config.foldname
-fold_write = config.fold_strong
+foldname = config.foldname
 
-A = np.load( fold_read + 'data_A.npy')
+
+A = np.load( foldname + 'data_A.npy')
 X_0 = config.X_0
 
 ol_fre_prob = OnlineProblem(    mfd = Hn,
@@ -27,22 +27,25 @@ ol_fre_prob = OnlineProblem(    mfd = Hn,
                                 loss = frechet_mean_h.func,
                                 grad = frechet_mean_h.grad,
                                 ) 
-
-aver_value = np.zeros( T )
-aver_time  = np.zeros( T )
-rounds = 100
+values = []
+time = []
+rounds = 10
 for _ in range(rounds):
     solver = OnlineTwoPointBandit()
     solver.optimize(ol_fre_prob, X_0, mul = 1, mu=1, setoff=170)
     solver.calculate_aver_value() 
     solver.sum_time()
-    aver_value += solver.aver_value_histories
-    aver_time  += solver.time_sum
-aver_value /= rounds
-aver_time  /= rounds
+    values.append(solver.aver_value_histories)
+    time.append(solver.time_sum)
 
-np.save( fold_write + 'time_two_bandit',aver_time)
-np.save( fold_write + 'data_two_bandit',aver_value)
+arr_values = np.array(values)
+arr_time = np.array(time)
+aver_values , std_values = np.mean(arr_values,axis=0) , np.std(arr_values,axis=0)
+aver_time = np.mean(arr_time,axis=0)
+
+np.save( foldname + 'data_two_bandit',aver_values)
+np.save( foldname + 'std_two_bandit',std_values)
+np.save( foldname + 'time_two_bandit',aver_time)
 print('2-bandit solver completed')
 
 

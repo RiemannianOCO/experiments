@@ -28,20 +28,23 @@ ol_pca = OnlineProblem(     mfd = Gr,
                                 ) 
 
 
-aver_values = np.zeros(  T  )
-aver_time = np.zeros(  T  )
+values = []
+time = []
 solver = OnlineTwoPointBandit()
-rounds = 100
+rounds = 10
 for i in range(rounds):
-    solver.optimize(ol_pca,X_0,mul = 1,mu=5)
+    solver.optimize(ol_pca,X_0,mul = 1,mu=5,c_0=40)
     solver.calculate_aver_value()
-    solver.sum_time()
-    aver_values += solver.aver_value_histories
-    aver_time   += solver.time_sum
-aver_values = aver_values / rounds
-aver_time = aver_time /rounds
+    values.append(solver.aver_value_histories)
+    time.append(solver.time)
+    print(i)
+arr_values = np.array(values)
+arr_time = np.array(time)
+aver_values , std_values = np.mean(arr_values,axis=0) , np.std(arr_values,axis=0)
+aver_time = np.mean(arr_time,axis=0)
 
 np.save( foldname + 'data_two_bandit',aver_values)
+np.save( foldname + 'std_two_bandit',std_values)
 np.save( foldname + 'time_two_bandit',aver_time)
 print('2-bandit solver completed')
 

@@ -32,12 +32,9 @@ param = Param(diameter = diameter,
 
 # initial point
 np.random.seed(42)
-X_0 = mfd.rand()
+X_0 = mfd.random_point()
 X_0 = mfd.exp( mfd.center , diameter * mfd.log(mfd.center,X_0) / mfd.dist(mfd.center,X_0) )
 np.random.seed()
 
 # save file
 foldname = os.path.dirname(__file__)+ '/data/'
-fold_strong = os.path.dirname(__file__)+ '/data/strong/'
-fold_convex = os.path.dirname(__file__)+ '/data/convex/'
-

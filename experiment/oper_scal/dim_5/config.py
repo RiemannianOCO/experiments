@@ -12,9 +12,9 @@ T=50000
 block=2
 
 # manifold 
-from pymanopt.manifolds import PositiveDefinite
+from pymanopt.manifolds import SymmetricPositiveDefinite
 
-SPD = PositiveDefinite(n, k=1)
+SPD = SymmetricPositiveDefinite(n, k=1)
 SPD.center = np.eye(n)
 
 diameter = 5
@@ -31,7 +31,7 @@ param = Param(diameter = diameter,
               )
 
 np.random.seed(42)
-X_0 = SPD.rand()
+X_0 = SPD.random_point()
 X_0 = SPD.exp( SPD.center , diameter * SPD.log(SPD.center,X_0)/SPD.dist(SPD.center,X_0)  )
 np.random.seed()
 

@@ -11,14 +11,14 @@ class OnlineTwoPointBandit(OnlineSolver):
     def __init__(self) -> None:
        self.solver_type = 'BAN' 
     
-    def optimize(self,problem,Y_0,mul = 1,mu=0):
+    def optimize(self,problem,Y_0,mul = 1,mu=0,c_0=-1):
         T = problem.time
         track_list = ['X1','X2','Y']
         self.initial_with_problem(T,Y_0,track_list)
 
         self.Y[0] = Y_0
         if mu > 0:
-            self.bandit_solver_sc(problem,Y_0,mul,mu)
+            self.bandit_solver_sc(problem,Y_0,mul,mu,c_0)
         else:
             self.bandit_solver(problem,Y_0,mul)
         
@@ -76,7 +76,7 @@ class OnlineTwoPointBandit(OnlineSolver):
             self.time[t] = time_e-time_s
             
 
-    def bandit_solver_sc (self,problem,Y_0, mul,mu):
+    def bandit_solver_sc (self,problem,Y_0, mul,mu,c_0):
         # problem setting
         (mfd,f,T,n) = ( problem.mfd,
                         problem.f_t,
@@ -100,9 +100,11 @@ class OnlineTwoPointBandit(OnlineSolver):
         tau = delta/r
         alpha = B / mu
         center = problem.mfd.center
-        setoff = 10
-        proceed = np.round(alpha / setoff) + 1
-        proceed = 1
+        #setoff = 10
+        if c_0 == -1:
+            proceed = np.round(L * alpha / D) + 1
+        else:
+            proceed = c_0
         for t in range(T):
             time_s = time.time()
             Y_t = self.Y[t]

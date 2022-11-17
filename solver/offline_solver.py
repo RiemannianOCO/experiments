@@ -1,9 +1,10 @@
-from pymanopt import Problem
-from pymanopt.solvers import *
+from pymanopt import Problem,function
+from pymanopt.optimizers import *
 import numpy as np
 class OfflineSolver():
-    def __init__(self, solver, mingrad = 10e-6, maxtime = 10000) -> None:
-        self.solver = solver(mingradnorm = mingrad,maxtime = 10000)
+    def __init__(self, solver, mingrad = 10e-6, max_time = 10000) -> None:
+        self.solver = solver(min_gradient_norm = mingrad,max_time = max_time)
+        self.solver._verbosity = 2
     
     def optimize(self,ol_problem,X_0,list_T):
         self.list_T = list_T
@@ -16,12 +17,16 @@ class OfflineSolver():
         for i in range(length):
             t = self.list_T[i]
             print('offline round:',t)
-            func = lambda X: problem.sum_f(t,X)
-            grad = lambda X: problem.sum_g(t,X)
-            off_problem = Problem(manifold = problem.mfd, cost=func, grad=grad)
-            Xopt = self.solver.solve(off_problem,x=X_0)
+            @function.numpy(problem.mfd)
+            def func(X):
+                return problem.sum_f(t,X)
+            @function.numpy(problem.mfd)
+            def grad(X):
+                return problem.sum_g(t,X)
+            off_problem = Problem(manifold = problem.mfd, cost=func, riemannian_gradient=grad)
+            Xopt = self.solver.run(off_problem,initial_point =X_0).point
             dist_center = problem.mfd.dist(Xopt, X_0)
-            print(dist_center)
+            #print(dist_center)
             print('value',func(Xopt))
             self.offline_histories[i]= func(Xopt)
         return Xopt

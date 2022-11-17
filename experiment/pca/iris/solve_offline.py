@@ -2,7 +2,7 @@ import os
 import sys
 
 import numpy as np
-from pymanopt.solvers import ConjugateGradient
+from pymanopt.optimizers import ConjugateGradient
 
 sys.path.append(os.getcwd())
 from core.offline_problem import OfflineProblem

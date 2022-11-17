@@ -28,7 +28,7 @@ ol_problem = OnlineProblem(     mfd = Gr,
                                 ) 
 
 solver = OnlineGradientDescent()
-solver.optimize(ol_problem,X_0,mu=10)
+solver.optimize(ol_problem,X_0,mu=5)
 solver.calculate_aver_value()
 solver.sum_time()
 

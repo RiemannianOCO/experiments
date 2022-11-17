@@ -1,4 +1,5 @@
 import numpy as np
 
-def CalcuRegret ( f1, f2 ,list_T):
-    return f1[list_T]-f2
+def cal_reg(res:dict, offline, grid):
+    for alg in res.values():
+        alg["regret"] = alg["value"][grid] - offline

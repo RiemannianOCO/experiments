@@ -4,7 +4,7 @@ from pymanopt.manifolds import *
 from .uniformly_choose_funcs import *
 from lib.operation import uniformly_choose_funcs
 def uniformly_choose(manifold, X , delta):
-    if isinstance(manifold, PositiveDefinite):
+    if isinstance(manifold, SymmetricPositiveDefinite):
         return uniformly_choose_SPD(X , delta , X.shape[0])
 
     elif isinstance(manifold, Stiefel):
@@ -17,4 +17,4 @@ def uniformly_choose(manifold, X , delta):
         return uniformly_choose_Sphere(manifold, X ,delta)
 
     else:
-        return manifold.randvec(X) * delta
+        return manifold.random_tangent_vector(X) * delta
