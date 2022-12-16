@@ -2,7 +2,8 @@ import os
 import sys
 
 sys.path.append(os.getcwd())
-
+foldname = os.path.dirname(__file__) + sys.argv[1]
+sys.path.append(foldname)
 import numpy as np
 from core.online_problem import OnlineProblem
 from lib.function import pca
@@ -33,7 +34,7 @@ time = []
 solver = OnlineTwoPointBandit()
 rounds = 100
 for i in range(rounds):
-    solver.optimize(ol_pca,X_0, mul = 1, mu=0.1,c_0=1)
+    solver.optimize(ol_pca,X_0, mul = 1, mu=0.1,c_0=3000)
     solver.calculate_aver_value()
     values.append(solver.aver_value_histories)
     time.append(solver.time)

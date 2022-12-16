@@ -8,7 +8,8 @@ sys.path.append(os.getcwd())
 from core.offline_problem import OfflineProblem
 from lib.function import pca
 from solver.offline_solver import OfflineSolver
-
+foldname = os.path.dirname(__file__) + '/data/regular/'
+sys.path.append(foldname)
 import config
 
 n=config.n
@@ -32,10 +33,9 @@ off_prob = OfflineProblem(  mfd = Gr,
                         ) 
 
 solver = OfflineSolver(solver = ConjugateGradient, mingrad = 1e-3)
-#solver.optimize(off_prob,X,[T-1])
-solver.optimize(off_prob,X,[0])
+solver.optimize(off_prob,X,list_T)
+#solver.optimize(off_prob,X,[0])
 
-
-#np.save( foldname +'data_offline',solver.offline_histories)
-#np.save( foldname + 'list_T',list_T)
+np.save( foldname +'data_offline',solver.offline_histories)
+np.save( foldname + 'list_T',list_T)
 print('offline solver completed')

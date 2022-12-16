@@ -8,22 +8,27 @@ from core.param import Param
 
 
 # dim,rounds and blocks
-n=4
-d=2
-T=150
+n=14
+d=3
+T=14000
 block=1
 
 # manifold 
 from pymanopt.manifolds import Grassmann
+
+#regular stands for
+#
+foldname = os.path.dirname(__file__)+'/'
+
 mfd = Grassmann(n,d)
-X = np.zeros((n,d))
-X[:d] = np.eye(d)
+X = np.load(foldname+'X.npy')
 mfd.center = X
 
-curvature_above = 2
-diameter = np.pi / ( 2*np.sqrt(curvature_above) )
-lipschitz = 6
-bound = 6
+curvature_above = 2 
+lipschitz = 1
+diameter = np.pi/2
+
+bound = 2
 curvature_below = 0
 
 param = Param(diameter = diameter,
@@ -33,11 +38,10 @@ param = Param(diameter = diameter,
               bound = bound
               )
 
-
-np.random.seed(42)
+np.random.seed(780)
 X_0 = mfd.random_point()
-X_0 = mfd.exp( mfd.center , (0.99* diameter) * mfd.log(mfd.center,X_0)/mfd.dist(mfd.center,X_0)  )
+X_0 = mfd.exp( mfd.center , (0.9* np.pi/(2 * np.sqrt(2))) * mfd.log(mfd.center,X_0)/mfd.dist(mfd.center,X_0)  )
 np.random.seed()
 
-foldname = os.path.dirname(__file__) + '/data/'
-print(foldname)
+
+

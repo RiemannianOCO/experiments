@@ -4,7 +4,7 @@ import sklearn
 from sklearn.preprocessing import StandardScaler
 import numpy as np
 import os
-foldname = foldname = os.path.dirname(__file__) + '/data/'
+foldname = os.path.dirname(__file__) + '/data/regular/'
 
 import pandas as pd
 data, target = datasets.fetch_openml('eeg-eye-state', version=1, return_X_y=True, as_frame=False)

@@ -34,7 +34,7 @@ time = []
 solver = OnlineZeroth()
 rounds = 100
 for i in range(rounds):
-    solver.optimize(os_problem,X_0,sigma = 0.001,L=1,V=2)
+    solver.optimize(os_problem,X_0,sigma = 0.001,L=1,V=13)
     solver.calculate_aver_value()
     solver.sum_time()
     values.append(solver.aver_value_histories)
@@ -48,4 +48,4 @@ aver_time = np.mean(arr_time,axis=0)
 np.save( foldname + 'data_ozo',aver_values)
 np.save( foldname + 'std_ozo',std_values)
 np.save( foldname + 'time_ozo',aver_time)
-print('2-bandit solver completed')
+print('zerosolver completed')

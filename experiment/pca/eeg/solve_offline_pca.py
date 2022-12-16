@@ -20,7 +20,7 @@ A = np.load( foldname + 'data_A.npy' )
 sol_X = []
 sol_value = []
 
-list_T= list(np.arange(100,config.T,100))
+list_T= list(range(T))
 
 list_T.append(T-1)
 

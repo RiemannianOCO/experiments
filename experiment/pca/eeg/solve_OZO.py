@@ -2,7 +2,9 @@ import os
 import sys
 
 sys.path.append(os.getcwd())
-
+foldname = os.path.dirname(__file__) + sys.argv[1]
+sys.path.append(foldname)
+print(sys.path)
 import numpy as np
 from core.online_problem import OnlineProblem
 from lib.function import pca

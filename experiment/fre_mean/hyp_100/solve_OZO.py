@@ -32,10 +32,10 @@ ol_fre_prob = OnlineProblem(    mfd = Hn,
 
 values = []
 time = []
-rounds = 10
+rounds = 100
 for i in range(rounds):
     solver = OnlineZeroth()
-    solver.optimize(ol_fre_prob, X_0,sigma=1,L=config.param.zeta,V=2)
+    solver.optimize(ol_fre_prob, X_0,sigma=1,L=config.param.zeta,V=1)
     solver.calculate_aver_value() 
     solver.sum_time()
     values.append(solver.aver_value_histories)

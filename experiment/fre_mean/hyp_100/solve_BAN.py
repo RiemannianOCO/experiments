@@ -30,7 +30,7 @@ ol_fre_prob = OnlineProblem(    mfd = Hn,
                             )
 values = []
 time = []
-rounds = 10
+rounds = 100
 for _ in range(rounds):
     solver = OnlineBandit()
     solver.optimize(ol_fre_prob,X_0,mul = 7,mu=1, setoff= 2125 )

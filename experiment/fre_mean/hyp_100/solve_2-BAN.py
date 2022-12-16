@@ -29,7 +29,7 @@ ol_fre_prob = OnlineProblem(    mfd = Hn,
                                 ) 
 values = []
 time = []
-rounds = 10
+rounds = 100
 for _ in range(rounds):
     solver = OnlineTwoPointBandit()
     solver.optimize(ol_fre_prob, X_0, mul = 1, mu=1, setoff=170)

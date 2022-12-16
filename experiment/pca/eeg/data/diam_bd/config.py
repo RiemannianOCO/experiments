@@ -16,14 +16,19 @@ block=1
 # manifold 
 from pymanopt.manifolds import Grassmann
 
-foldname = os.path.dirname(__file__) + '/data/'
+#regular stands for
+#
+foldname = os.path.dirname(__file__) +'/'
+
 mfd = Grassmann(n,d)
-X = np.load(foldname+'X_0.npy')
+X = np.load(foldname+'X.npy')
 mfd.center = X
 
 curvature_above = 2 
-diameter = np.pi / ( 2*np.sqrt(curvature_above) ) 
 lipschitz = 1
+
+diameter = d **2 * np.pi/2
+
 bound = 2
 curvature_below = 0
 
@@ -34,9 +39,10 @@ param = Param(diameter = diameter,
               bound = bound
               )
 
-np.random.seed(780)
+np.random.seed(42)
 X_0 = mfd.random_point()
-X_0 = mfd.exp( mfd.center , ( 0.999 * diameter) * mfd.log(mfd.center,X_0)/mfd.dist(mfd.center,X_0)  )
-    
+X_0 = mfd.exp( mfd.center , (0.999* diameter) * mfd.log(mfd.center,X_0)/mfd.dist(mfd.center,X_0)  )
 np.random.seed()
-print(foldname)
+
+
+

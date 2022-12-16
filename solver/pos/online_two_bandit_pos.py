@@ -92,7 +92,10 @@ class OnlineTwoPointBandit(OnlineSolver):
                             )                   
         kappa = - min(kappa,0)
                                     
-        
+        if c_0 == -1:
+            proceed = np.round(L * alpha / D) + 1
+        else:
+            proceed = c_0
         #params for the algorithm
         delta = mul * (1 + np.log(T)) / T
         B = n/delta + n * kappa * delta
@@ -101,10 +104,7 @@ class OnlineTwoPointBandit(OnlineSolver):
         alpha = B / mu
         center = problem.mfd.center
         #setoff = 10
-        if c_0 == -1:
-            proceed = np.round(L * alpha / D) + 1
-        else:
-            proceed = c_0
+
         for t in range(T):
             time_s = time.time()
             Y_t = self.Y[t]
